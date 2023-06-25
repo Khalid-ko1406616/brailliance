@@ -1,48 +1,69 @@
 package com.bonocle.brailliance.view
 
 import android.annotation.SuppressLint
+import android.widget.Space
 import androidx.activity.ComponentActivity
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.rounded.Logout
+import androidx.compose.material.icons.rounded.Menu
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.bonocle.brailliance.viewmodel.SessionViewModel
 import com.bonocle.brailliance.viewmodel.UserViewModel
+import kotlinx.coroutines.launch
 
 @Composable
-@SuppressLint("UnusedMaterialScaffoldPaddingParameter")
-fun Instructor(onAddSession: () -> Unit, onEditSession: () -> Unit){
+fun Instructor( onAddSession: () -> Unit, onEditSession: () -> Unit, onSession: () -> Unit ){
 
-    val sessionViewModel = viewModel<SessionViewModel>(viewModelStoreOwner = LocalContext.current as ComponentActivity)
-    val sessionsList =sessionViewModel.sessionsList
+    Column (
+        modifier = Modifier
+            .fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
 
-    val userViewModel = viewModel<UserViewModel>(viewModelStoreOwner = LocalContext.current as ComponentActivity)
-    val currentUser = userViewModel.currentUser
+    ){
+        Card(
+            Modifier
+                .fillMaxWidth(0.9f)
+                .background(Color.LightGray)) {
+            Text("Subjects",Modifier.align(Alignment.CenterHorizontally))
+            LazyColumn(content = {
 
-    val scope = rememberCoroutineScope()
-    val scaffoldState = rememberScaffoldState()
-
-    Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = {
-            TopAppBar(title = {
-                Text(
-                    text = " ${currentUser?.role} ${currentUser?.firstName}",
-                    modifier = Modifier.fillMaxWidth(),
-                    textAlign = TextAlign.Center
-                )
             })
-        },
-    ) {
-        
+        }
+
+        Card(
+            Modifier
+                .fillMaxWidth(0.9f)
+                .background(Color.LightGray)) {
+            Text("Sessions",Modifier.align(Alignment.CenterHorizontally))
+            LazyColumn(content = {
+
+            })
+        }
+
+        Card(
+            Modifier
+                .fillMaxWidth(0.9f)
+                .background(Color.LightGray)) {
+            Text("Add Session")
+            Button(onClick = { onAddSession() }) {
+                Icon( Icons.Default.Add, contentDescription = "Add")
+            }
+        }
+
     }
 
 }

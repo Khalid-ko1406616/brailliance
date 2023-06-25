@@ -9,8 +9,8 @@ import java.util.*
 data class Session (
     @DocumentId
     val id: String = "",
-    val subject: String,
-    val meetingTime: String,
+    var subject: String,
+    var meetingTime: String,
     var instructorID: String,
     var studentID: String? = null,
     @ServerTimestamp

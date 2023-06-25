@@ -45,26 +45,6 @@ fun Register(
             role = role
         )
 
-//        userViewModel.signIn(user.email,user.password)
-//        userViewModel.setCurrentUser()
-//
-//        if(userViewModel.currentUser != null){
-//            displayMessage(context,"Email already in use.")
-//            return
-//        }
-//
-        if (firstName == "" || lastName == "" || email == "" || password == "" || role == "") { // check if al fields entered
-            displayMessage(context, "Please enter all required fields")
-            return
-        }
-//        else if (!email.contains("@")){
-//            displayMessage(context,"Incorrect Email format")
-//            return
-//        }else if (password.length < 6){
-//            displayMessage(context,"Password must be 6 or more characters")
-//            return
-//        }
-
         try {
             userViewModel.register(user)
             onSubmit()
@@ -86,29 +66,41 @@ fun Register(
             value = email,
             onValueChange = {
                 email = it
+                userViewModel.errorMessage = ""
             },
             label = {
-                Text(text = "E-mail")
-            })
+                Text(text = "Email")
+            },
+            placeholder = { Text(text = "Email") },
+            singleLine = true,
+            isError = userViewModel.errorMessage.isNotEmpty())
 
         Spacer(modifier = Modifier.padding(8.dp))
         OutlinedTextField(
             value = firstName,
             onValueChange = {
                 firstName = it
+                userViewModel.errorMessage = ""
             },
             label = {
                 Text(text = "First Name")
-            })
+            },
+            placeholder = { Text(text = "First Name") },
+            singleLine = true,
+            isError = userViewModel.errorMessage.isNotEmpty())
 
         OutlinedTextField(
             value = lastName,
             onValueChange = {
                 lastName = it
+                userViewModel.errorMessage = ""
             },
             label = {
                 Text(text = "Last Name")
-            })
+            },
+            placeholder = { Text(text = "Last Name") },
+            singleLine = true,
+            isError = userViewModel.errorMessage.isNotEmpty())
 
         Spacer(modifier = Modifier.padding(8.dp))
 
@@ -116,11 +108,15 @@ fun Register(
             value = password,
             onValueChange = {
                 password = it
+                userViewModel.errorMessage = ""
             },
             visualTransformation = PasswordVisualTransformation(),
             label = {
                 Text(text = "Password")
-            })
+            },
+            placeholder = { Text(text = "Password") },
+            singleLine = true,
+        isError = userViewModel.errorMessage.isNotEmpty())
 
         Spacer(modifier = Modifier.padding(8.dp))
 
@@ -136,14 +132,16 @@ fun Register(
         ) {
             OutlinedTextField(
                 value = selectedItem,
-                onValueChange = {role = selectedItem},
+                onValueChange = {role = selectedItem
+                    userViewModel.errorMessage = ""},
                 readOnly = true,
                 label = { Text(text = "Role")},
                 trailingIcon = {
                     ExposedDropdownMenuDefaults.TrailingIcon(
                         expanded = expanded
                     )
-                }
+                },
+                isError = userViewModel.errorMessage.isNotEmpty()
             )
 
             ExposedDropdownMenu(

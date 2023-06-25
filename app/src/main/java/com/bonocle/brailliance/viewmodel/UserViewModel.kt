@@ -20,6 +20,8 @@ class UserViewModel : ViewModel() {
     var currentUser by mutableStateOf<User?>(null)
     var errorMessage by mutableStateOf("")
 
+    var rememberCheck by mutableStateOf(false)
+
     private val exceptionHandler = CoroutineExceptionHandler { context, exception ->
         this.errorMessage = exception.message ?: "Request failed"
         println(">> Debug: Exception thrown: $exception.")
@@ -34,6 +36,8 @@ class UserViewModel : ViewModel() {
         currentUser = null
         currentUser = userRepository.signIn(email,password)
     }
+
+
 
     fun setCurrentUser() = viewModelScope.launch(exceptionHandler){
         val uid = Firebase.auth.currentUser?.uid
